@@ -1,12 +1,26 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const {z} = require("zod");
 const { UserModel, TodoModel } = require("./db");
 const { auth, JWT_SECRET } = require("./authentication");
 const app = express();
 
 app.use(express.json());
 app.post("/signup", async function (req, res) {
+  const validation = z.object({
+    email:z.string().email(),
+    password:z.string(),
+    name:z.string()
+  })
+  const parsedatawithsuccess = validation.safeParse(req.body);
+  if(!parsedatawithsuccess){
+    res.json({
+      message:"Invalid format",
+      error :parsedatawithsuccess.error
+    })
+    return
+  }
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
