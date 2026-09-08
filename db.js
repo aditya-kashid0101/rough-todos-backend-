@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-mongoose
-  .connect(
-    "mongodb+srv://xyzxyz.ge6ty8m.mongodb.net/AdityaDb",
-  )
-  .then(() => console.log("Connected!"));
+mongoose.connect("").then(() => console.log("Connected!"));
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.ObjectId;
 const User = new Schema({
@@ -22,6 +18,6 @@ const UserModel = mongoose.model("users", User);
 const TodoModel = mongoose.model("todos", Todo);
 
 module.exports = {
-  UserModel: UserModel,
-  TodoModel: TodoModel,
+  UserModel,
+  TodoModel,
 };

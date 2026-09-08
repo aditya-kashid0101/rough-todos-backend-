@@ -1,8 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { UserModel, TodoModel } = require("./db");
-const JWT_SECRET = "dont tell anyone about this one";
-
+const { auth, JWT_SECRET } = require("./authentication");
 const app = express();
 app.use(express.json());
 app.post("/signup", async function (req, res) {
@@ -64,16 +63,5 @@ app.get("/todos", auth, async function (req, res) {
     todos,
   });
 });
-function auth(req, res, next) {
-  const token = req.headers.token;
-  const decoded = jwt.verify(token, JWT_SECRET);
-  if (decoded) {
-    req.userId = decoded.id;
-    next();
-  } else {
-    res.send(403).json({
-      message: "Invalid Credentials",
-    });
-  }
-}
+
 app.listen(3000);
